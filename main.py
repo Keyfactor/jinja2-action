@@ -19,14 +19,14 @@ class Context:
                 self._variables.update({name: value})
 
     def load_from_data_file(self):
-        data_file = self._environ.get(GitHubActionsInput.DATA_FILE)
-        if data_file:
-            format = self._environ.get(
-                GitHubActionsInput.DATA_FORMAT,
-                self._guess_format(data_file),
-            )
-            with open(data_file, 'r') as file:
-                self._variables.update(read_context_data(format, file, None))
+        for data_file in self._environ.get(GitHubActionsInput.DATA_FILE).split('\n'):
+            if data_file:
+                format = self._environ.get(
+                    GitHubActionsInput.DATA_FORMAT,
+                    self._guess_format(data_file),
+                )
+                with open(data_file, 'r') as file:
+                    self._variables.update(read_context_data(format, file, None))
 
 
     def render_template(self):
