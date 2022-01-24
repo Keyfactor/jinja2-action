@@ -20,12 +20,13 @@ class Context:
 
     def load_from_data_file(self):
         for data_file in self._environ.get(GitHubActionsInput.DATA_FILE).split('\n'):
-            if data_file:
+            clean_filename = bytes(data_file.strip(), 'utf-8').decode('unicode_escape')
+            if clean_filename != '':
                 format = self._environ.get(
                     GitHubActionsInput.DATA_FORMAT,
-                    self._guess_format(data_file),
+                    self._guess_format(clean_filename),
                 )
-                with open(data_file, 'r') as file:
+                with open(clean_filename, 'r') as file:
                     self._variables.update(read_context_data(format, file, None))
 
 
