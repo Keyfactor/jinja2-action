@@ -23,11 +23,13 @@ for variable in os.environ.get('INPUT_VARIABLES', '').split('\n'):
         name, value = clean_variable.split('=', 1)
         variables.update({name: value})
 
-data_file = os.environ.get('INPUT_DATA_FILE')
-if data_file:
-    format = os.environ.get('INPUT_DATA_FORMAT', guess_format(data_file))
-    with open(data_file, 'r') as file:
-        variables.update(read_context_data(format, file, None))
+data_files = os.environ.get('INPUT_DATA_FILE')
+for data_file in data_files.split('\n'):
+    clean_filename = bytes(variable.strip(), 'utf-8').decode('unicode_escape')
+    if clean_filename != '':
+        format = os.environ.get('INPUT_DATA_FORMAT', guess_format(clean_filename))
+        with open(clean_filename, 'r') as file:
+            variables.update(read_context_data(format, file, None))
 
 with open(os.environ['INPUT_TEMPLATE'], 'r') as file:
     template_kwargs = {}
