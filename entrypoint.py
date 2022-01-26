@@ -35,7 +35,7 @@ with open(os.environ['INPUT_TEMPLATE'], 'r') as file:
     template_kwargs = {}
     if os.environ.get('INPUT_STRICT') == 'true':
         template_kwargs.update({'undefined': StrictUndefined})
-    template = Environment(loader=FileSystemLoader('.').from_string(str(file.read()), **template_kwargs)
+    template = Environment(loader=FileSystemLoader('.')).from_string(str(file.read()), **template_kwargs)
 
 with open(os.environ['INPUT_OUTPUT_FILE'], 'w') as file:
     file.write(template.render(**variables) + '\n')
