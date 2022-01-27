@@ -25,7 +25,7 @@ for variable in os.environ.get('INPUT_VARIABLES', '').split('\n'):
 
 data_files = os.environ.get('INPUT_DATA_FILE')
 for data_file in data_files.split('\n'):
-    clean_filename = bytes(variable.strip(), 'utf-8').decode('unicode_escape')
+    clean_filename = bytes(data_file.strip(), 'utf-8').decode('unicode_escape')
     if clean_filename != '':
         format = os.environ.get('INPUT_DATA_FORMAT', guess_format(clean_filename))
         with open(clean_filename, 'r') as file:
