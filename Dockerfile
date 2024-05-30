@@ -9,4 +9,3 @@ RUN pip install \
 COPY entrypoint.py /entrypoint.py
 
 ENTRYPOINT ["/entrypoint.py"]
-
