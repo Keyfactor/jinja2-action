@@ -1,11 +1,11 @@
-FROM dinutac/jinja2docker:2.1.3
+FROM python:3.11
 
-RUN pip install \
-    Jinja2==3.0.3 \
-    j2cli==0.3.10 \
-    pyyaml==5.3.1 \
-    MarkupSafe==2.0.1
+WORKDIR /app
+ENTRYPOINT ["/app/entrypoint.py"]
 
-COPY entrypoint.py /entrypoint.py
+COPY poetry.lock pyproject.toml ./
+RUN pip install poetry \
+ && poetry config virtualenvs.create false \
+ && poetry install
 
-ENTRYPOINT ["/entrypoint.py"]
+COPY . ./
