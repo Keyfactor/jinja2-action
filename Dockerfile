@@ -1,12 +1,11 @@
-FROM python:3
+FROM python:3.11
 
 WORKDIR /app
+ENTRYPOINT ["/app/entrypoint.py"]
 
-RUN pip install poetry
-RUN poetry config virtualenvs.create false
 COPY poetry.lock pyproject.toml ./
-RUN poetry install
+RUN pip install poetry \
+ && poetry config virtualenvs.create false \
+ && poetry install
 
 COPY . ./
-
-ENTRYPOINT ["./entrypoint.py"]
